@@ -18,7 +18,7 @@ if project_dir not in sys.path:
 
 from src import config
 from src.spark_session import get_spark_session
-from src.preprocess import preprocess_data
+from src.preprocessing import preprocess_data
 from src.eda import run_full_eda
 from src.train import train_all_models
 from src.evaluate import run_evaluation

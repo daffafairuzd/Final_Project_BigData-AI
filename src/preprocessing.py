@@ -11,6 +11,7 @@ import pyspark.sql.types as T
 
 from src import config
 from src.spark_session import get_spark_session
+from src.feature_engineering import run_feature_engineering
 from src.utils import get_logger, timer, ensure_dirs
 
 logger = get_logger("preprocessing")
@@ -122,6 +123,26 @@ def run_preprocessing(spark: SparkSession, csv_path: str, output_dir: str) -> st
         
     return cleaned_output_path
 
+def preprocess_data(spark: SparkSession, csv_path: str, output_dir: str):
+    """
+    Orkestrasi lengkap preprocessing (cleaning & row-level features) + feature engineering (tanpa leakage).
+    """
+    logger.info("--- Memulai Preprocessing & Feature Engineering Modular ---")
+    
+    # Langkah 1: Preprocessing (cleaning & row-level features) -> cleaned.parquet
+    cleaned_parquet_path = run_preprocessing(spark, csv_path, output_dir)
+    
+    # Langkah 2: Feature Engineering (split-first, aggregates dari train saja)
+    run_feature_engineering(
+        spark=spark,
+        cleaned_path=cleaned_parquet_path,
+        output_dir=output_dir,
+        seed=config.RANDOM_SEED,
+        ratio=config.IMBALANCE_RATIO
+    )
+    
+    logger.info("--- Seluruh Preprocessing & Feature Engineering Selesai ---")
+
 if __name__ == "__main__":
     # Script entry point untuk eksekusi mandiri
     src_dir = os.path.dirname(os.path.abspath(__file__))
@@ -132,7 +153,7 @@ if __name__ == "__main__":
     
     spark = get_spark_session()
     try:
-        run_preprocessing(spark, csv_file, output_folder)
+        preprocess_data(spark, csv_file, output_folder)
     except Exception as e:
         logger.error(f"Preprocessing Gagal: {str(e)}", exc_info=True)
     finally:

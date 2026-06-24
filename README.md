@@ -48,9 +48,9 @@ Evaluasi model dilakukan pada data uji skala besar yang sangat tidak seimbang (~
 * `src/` : Folder berisi modul fungsional proyek:
   * `config.py` : Pengaturan konfigurasi, path, dan hyperparameter terpusat.
   * `spark_session.py` : Pengelolaan dan konfigurasi aman inisialisasi sesi Apache Spark di OS Windows.
-  * `preprocess.py` & `preprocessing.py` : Ingestion CSV mentah, schema validation, data cleaning, dan penulisan berkas Parquet awal.
+  * `preprocessing.py` : Ingestion CSV mentah, pembersihan data awal (cleaning), dan orkestrasi lengkap preprocessing.
   * `feature_engineering.py` : Proses pemecahan data latih/uji (stratified split), kalkulasi velocity lookup (velocity & global activity), downsampling, dan proses label encoding.
-  * `eda.py` & `eda_spark.py` : Analisis eksplorasi data statistik terdistribusi menggunakan Apache Spark SQL dan analisis quantile bucket RBA.
+  * `eda.py` : Analisis eksplorasi data statistik terdistribusi menggunakan Apache Spark SQL dan analisis quantile bucket RBA.
   * `train.py` : Skrip pelatihan model machine learning (Random Forest, LightGBM, XGBoost) dengan mekanisme alokasi GPU dan fallback otomatis ke CPU.
   * `evaluate.py` : Modul sweep threshold keputusan optimal dan konstruksi tiers dynamic RBA berbasis data.
   * `visualize.py` : Pembuatan grafik evaluasi kinerja model dan hasil visualisasi EDA.
@@ -92,7 +92,7 @@ python main.py
 ### 5. Menjalankan Modul Mandiri (Opsional)
 * **EDA Spark SQL**: Untuk menjalankan query analisis data terdistribusi secara manual:
   ```bash
-  python src/eda_spark.py
+  python src/eda.py
   ```
 * **Evaluasi & Visualisasi Ulang**: Untuk menguji ambang batas baru atau mengubah visualisasi grafik:
   ```bash
