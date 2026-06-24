@@ -1,0 +1,1 @@
+["From_Bank", "To_Bank", "Amount_Received", "Receiving_Currency", "Amount_Paid", "Payment_Currency", "Payment_Format", "Hour", "Day_of_Week", "Is_Currency_Conversion", "sender_tx_count_24h", "sender_amount_sum_24h", "receiver_tx_count_24h", "receiver_amount_sum_24h", "sender_tx_count", "sender_avg_amount", "receiver_tx_count", "receiver_avg_amount", "out_degree", "in_degree"]
