@@ -513,7 +513,9 @@ def generate_eda_visualizations(eda_dir: str, plots_dir: str):
     logger.info("Semua grafik visualisasi EDA berhasil dibuat!")
 
 if __name__ == "__main__":
-    project_root = r"d:\Kuliah\Big Data & AI\Final_Project"
+    src_dir = os.path.dirname(os.path.abspath(__file__))
+    project_root = os.path.abspath(os.path.join(src_dir, ".."))
+    
     e_dir = os.path.join(project_root, config.EDA_DIR)
     p_dir = os.path.join(project_root, config.PROCESSED_DIR)
     plots_folder = os.path.join(project_root, config.PLOTS_DIR)
