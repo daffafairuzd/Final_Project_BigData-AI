@@ -79,36 +79,21 @@ def train_rf(X_train, y_train, scale_pos_weight: float) -> RandomForestClassifie
 
 def train_lgb(X_train, y_train, scale_pos_weight: float, models_dir: str) -> lgb.LGBMClassifier:
     """
-    Melatih model LightGBM dengan deteksi parameter terbaik dan fallback GPU -> CPU.
+    Melatih model LightGBM dengan parameter dari konfigurasi dan fallback GPU -> CPU.
     """
     logger.info("--- Melatih LightGBM Classifier ---")
     
-    # Default parameters
+    # Parameters dari config
     lgb_params = {
-        'n_estimators': 300,
-        'learning_rate': 0.05,
-        'num_leaves': 31,
-        'max_depth': 8,
+        'n_estimators': config.LGB_N_ESTIMATORS,
+        'learning_rate': config.LGB_LEARNING_RATE,
+        'num_leaves': config.LGB_NUM_LEAVES,
+        'max_depth': config.LGB_MAX_DEPTH,
         'scale_pos_weight': scale_pos_weight,
         'random_state': config.RANDOM_SEED,
         'verbose': -1,
         'n_jobs': -1
     }
-    
-    # Load parameters hasil tuning Optuna jika ada
-    params_path = os.path.join(models_dir, "best_lgb_params.json")
-    if os.path.exists(params_path):
-        try:
-            logger.info(f"Memuat best LightGBM params dari {params_path}...")
-            with open(params_path, "r") as f:
-                tuned_params = json.load(f)
-            # Konversi float ke int untuk hyperparameter yang sesuai
-            for k, v in tuned_params.items():
-                if k in ['n_estimators', 'num_leaves', 'max_depth', 'min_child_samples']:
-                    tuned_params[k] = int(v)
-            lgb_params.update(tuned_params)
-        except Exception as e:
-            logger.warning(f"Gagal memuat {params_path}, menggunakan parameter bawaan. Error: {str(e)}")
             
     t0 = time.perf_counter()
     model = None

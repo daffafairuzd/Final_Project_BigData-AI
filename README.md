@@ -54,7 +54,6 @@ Evaluasi model dilakukan pada data uji skala besar yang sangat tidak seimbang (~
   * `train.py` : Skrip pelatihan model machine learning (Random Forest, LightGBM, XGBoost) dengan mekanisme alokasi GPU dan fallback otomatis ke CPU.
   * `evaluate.py` : Modul sweep threshold keputusan optimal dan konstruksi tiers dynamic RBA berbasis data.
   * `visualize.py` : Pembuatan grafik evaluasi kinerja model dan hasil visualisasi EDA.
-  * `tune.py` : Skrip optimasi hyperparameter mandiri berbasis **Optuna** (dengan metrik optimasi PR-AUC).
   * `utils.py` : Fungsi utilitas pembantu (logging, timing, file handler).
 * `models/` : Berkas parameter encoding dan bobot model terlatih terbaik yang siap pakai.
 * `plots/` : Berkas gambar visualisasi kurva evaluasi model dan EDA hasil eksekusi.
@@ -91,10 +90,6 @@ python main.py
 > **Catatan**: Pipeline dilengkapi fitur penyimpanan Parquet bertahap. Jika file Parquet hasil pemrosesan sudah terbentuk di `data/processed/`, langkah preprocessing & EDA akan dilewati secara otomatis untuk menghemat waktu eksekusi.
 
 ### 5. Menjalankan Modul Mandiri (Opsional)
-* **Tuning Hyperparameter**: Untuk mencari hyperparameter LightGBM baru dengan Optuna:
-  ```bash
-  python src/tune.py
-  ```
 * **EDA Spark SQL**: Untuk menjalankan query analisis data terdistribusi secara manual:
   ```bash
   python src/eda_spark.py
