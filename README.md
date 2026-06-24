@@ -28,17 +28,17 @@ Evaluasi model dilakukan pada data uji skala besar yang sangat tidak seimbang (~
 | Model & Skenario | PR-AUC | ROC-AUC | Accuracy | Precision | Recall | F1-Score | False Positives (Alert Noise) |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 | **XGBoost (Tuned 0.99)** | **0.3862** | **0.9831** | **99.90%** | **54.26%** | 32.71% | **40.81%** | **1,902** |
-| **XGBoost (Dynamic RBA)** | **0.3862** | **0.9831** | 99.21% | 8.51% | 64.69% | 15.03% | 47,997 |
-| **XGBoost (Default 0.50)** | **0.3862** | **0.9831** | 93.49% | 1.46% | **88.91%** | 2.87% | 414,271 |
-| **LightGBM (Tuned 0.98)** | 0.2437 | 0.9827 | 99.88% | 40.82% | 30.48% | 34.90% | 3,048 |
-| **LightGBM (Dynamic RBA)** | 0.2437 | 0.9827 | 99.43% | 10.68% | 57.91% | 18.03% | 33,404 |
-| **LightGBM (Default 0.50)** | 0.2437 | 0.9827 | 97.81% | 3.94% | 82.30% | 7.53% | 138,280 |
+| **XGBoost (Dynamic RBA)** | **0.3862** | **0.9831** | 99.70% | 19.46% | 55.47% | 28.82% | 15,831 |
+| **XGBoost (Default 0.50)** | **0.3862** | **0.9831** | 93.49% | 1.46% | 88.91% | 2.87% | 414,271 |
+| **LightGBM (Tuned 0.99)** | 0.2772 | 0.9824 | 99.87% | 39.40% | 32.43% | 35.58% | 3,441 |
+| **LightGBM (Dynamic RBA)** | 0.2772 | 0.9824 | 99.46% | 11.58% | 59.87% | 19.41% | 31,521 |
+| **LightGBM (Default 0.50)** | 0.2772 | 0.9824 | 88.90% | 0.92% | **95.06%** | 1.82% | 708,020 |
 | **Random Forest (Tuned 0.95)** | 0.1343 | 0.9802 | 99.82% | 18.33% | 19.78% | 19.03% | 6,078 |
-| **Random Forest (Default 0.50)** | 0.1343 | 0.9802 | 89.94% | 1.00% | **93.56%** | 1.97% | 641,560 |
+| **Random Forest (Default 0.50)** | 0.1343 | 0.9802 | 89.94% | 1.00% | 93.56% | 1.97% | 641,560 |
 
 ### Temuan Utama & Progress Proyek:
 1. **XGBoost Unggul Mutlak**: Model XGBoost mencapai nilai PR-AUC tertinggi sebesar **0.3862** dengan nilai F1-Score optimal sebesar **40.81%** pada threshold statis 0.99.
-2. **Kekuatan Dynamic RBA**: Dibandingkan dengan threshold statis hasil tuning (0.98 - 0.99) yang memiliki kelemahan meloloskan terlalu banyak transaksi fraud bernilai tinggi, skenario **Dynamic Risk-Based Approach (RBA)** berhasil mendongkrak tingkat kepekaan (*Recall*) secara signifikan (naik ke **64.69%** untuk XGBoost dan **57.91%** untuk LightGBM) sambil tetap memotong alarm palsu hingga lebih dari **90%** dibandingkan dengan skenario default.
+2. **Kekuatan Dynamic RBA**: Dibandingkan dengan threshold statis hasil tuning (0.95 - 0.99) yang memiliki kelemahan meloloskan terlalu banyak transaksi fraud bernilai tinggi, skenario **Dynamic Risk-Based Approach (RBA)** berhasil mendongkrak tingkat kepekaan (*Recall*) secara signifikan (naik ke **55.47%** untuk XGBoost dan **59.87%** untuk LightGBM) sambil tetap memotong alarm palsu hingga lebih dari **90%** dibandingkan dengan skenario default.
 3. **Analisis Velocity Terbukti Efektif**: Berdasarkan grafik kepentingan fitur (*Feature Importance*), akumulasi volume transaksi dalam 24 jam terakhir (`sender_amount_sum_24h` & `receiver_amount_sum_24h`) menjadi prediktor paling signifikan, memvalidasi keberhasilan modul *feature engineering* terdistribusi Spark.
 
 ---
